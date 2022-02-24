@@ -1,0 +1,5 @@
+data(swiss)
+head(swiss)
+sclass <- kmeans(swiss[2:6], 3)
+summary(sclass)
+table(sclass$cluster, swiss[,1])
