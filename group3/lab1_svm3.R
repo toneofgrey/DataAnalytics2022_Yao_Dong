@@ -1,11 +1,9 @@
 data(iris)
 attach(iris)
 
-## classification mode
-# default with factor response:
 model <- svm(Species ~ ., data = iris)
 
-# alternatively the traditional interface:
+#alternative svm
 x <- subset(iris, select = -Species)
 y <- Species
 model <- svm(x, y) 
@@ -13,15 +11,13 @@ model <- svm(x, y)
 print(model)
 summary(model)
 
-# test with train data
+#testing
 pred <- predict(model, x)
-# (same as:)
+#testing alternative
 pred <- fitted(model)
-
-# Check accuracy:
 table(pred, y)
 
-# compute decision values and probabilities:
+
 pred <- predict(model, x, decision.values = TRUE)
 attr(pred, "decision.values")[1:4,]
 
@@ -30,36 +26,29 @@ plot(cmdscale(dist(iris[,-5])),
      col = as.integer(iris[,5]),
      pch = c("o","+")[1:150 %in% model$index + 1])
 
-## try regression mode on two dimensions
-
-# create data
+#regression
 x <- seq(0.1, 5, by = 0.05)
 y <- log(x) + rnorm(x, sd = 0.2)
 
-# estimate model and predict input values
 m   <- svm(x, y)
 new <- predict(m, x)
 
-# visualize
 plot(x, y)
 points(x, log(x), col = 2)
 points(x, new, col = 4)
 
-## density-estimation
-
-# create 2-dim. normal with rho=0:
+#density estimation
 X <- data.frame(a = rnorm(1000), b = rnorm(1000))
-attach(X)
-
-# traditional way:
+#one way
 m <- svm(X, gamma = 0.1)
 
-# formula interface:
+#another way
 m <- svm(~., data = X, gamma = 0.1)
-# or:
-m <- svm(~ a + b, gamma = 0.1)
 
-# test:
+#another way
+m <- svm(~ a + b, data = X, gamma = 0.1)
+
+# testing
 newdata <- data.frame(a = c(0, 4), b = c(0, 4))
 predict (m, newdata)
 
@@ -67,7 +56,7 @@ predict (m, newdata)
 plot(X, col = 1:1000 %in% m$index + 1, xlim = c(-5,5), ylim=c(-5,5))
 points(newdata, pch = "+", col = 2, cex = 5)
 
-# weights: (example not particularly sensible)
+# weights estimate
 i2 <- iris
 levels(i2$Species)[3] <- "versicolor"
 summary(i2$Species)

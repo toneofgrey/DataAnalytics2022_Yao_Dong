@@ -15,7 +15,7 @@ df = data.frame( X , Y )
 
 par(mfcol=c(4,2)) 
 for( cost in c( 1e-3 ,1e-2 ,1e-1, 1e0,  1e+1, 1e+2 ,1e+3)) { 
-#cost <- 1 
+ 
 model.svm <- svm( Y ~ . , data = df ,  type = "C-classification" , kernel = 
 "linear", cost = cost, 
                          scale =FALSE ) 

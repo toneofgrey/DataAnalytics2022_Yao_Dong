@@ -1,4 +1,4 @@
-#### Use text with string kernels
+#stringkernel
 data(reuters)
 is(reuters)
 tsv <- ksvm(reuters,rlabels,kernel="stringdot",
